@@ -1,5 +1,5 @@
-import React, { useRef, useState, useCallback } from 'react';
-import './index.css';
+import React, { useState } from "react";
+import "./index.css";
 
 async function increaseRemote(a: number) {
   await new Promise((resolve) => setTimeout(resolve, Math.random() * 1e3));
@@ -15,25 +15,16 @@ async function increaseRemote(a: number) {
  */
 function App() {
   const [count, setCount] = useState(0);
-  const loading = useRef(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const increase = useCallback(async () => {
-    if (loading.current) {
-      return;
+  const handleClick = async (num: number) => {
+    setLoading(true);
+    let number = num;
+    for (let i = 0; i < count; i++) {
+      number = await increaseRemote(number);
     }
-    loading.current = true;
-    const data = await increaseRemote(count);
-    setCount(data);
-    loading.current = false;
-  }, [count]);
-
-  const handleClick = (num) => {
-    if (num === 1) {
-      increase();
-    } else if (num === 2) {
-      increase();
-      increase();
-    }
+    setCount(number);
+    setLoading(false);
   };
 
   return (
@@ -43,7 +34,7 @@ function App() {
       </header>
       <section className="App-content">
         <button
-          disabled={loading.current}
+          disabled={loading}
           onClick={() => {
             handleClick(1);
           }}
@@ -51,7 +42,7 @@ function App() {
           +1
         </button>
         <button
-          disabled={loading.current}
+          disabled={loading}
           onClick={() => {
             handleClick(2);
           }}

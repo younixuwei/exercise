@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React, { useRef, useState } from "react";
+import "./App.css";
 
 /**
  * 已知有一个远程加法
@@ -29,9 +29,22 @@ async function addRemote(a: number, b: number) {
  */
 async function add(...inputs: number[]) {
   // 你的实现
+  let sum = 0;
+  for (let i = 0; i < inputs.length; i++) {
+    sum = await addRemote(sum, inputs[i]);
+  }
+  return sum;
 }
 
 function App() {
+  const input = useRef<HTMLInputElement | null>(null);
+  const [result, setResult] = useState(0);
+  const handleClick = async () => {
+    const value = input.current!.value.split(",").map((v) => +v);
+    const result = await add(...value);
+    setResult(result);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -39,12 +52,17 @@ function App() {
         <div>点击相加按钮能显示最终结果</div>
       </header>
       <section className="App-content">
-        <input type="text" placeholder="请输入要相加的数字（如1,3,4,5,6）" />
-        <button>相加</button>
+        <input
+          ref={input}
+          type="text"
+          placeholder="请输入要相加的数字（如1,3,4,5,6）"
+        />
+        <button onClick={handleClick}>相加</button>
       </section>
       <section className="App-result">
         <p>
-          相加结果是：<span>{'你的实现'}</span>
+          相加结果是：
+          <span>{result}</span>
         </p>
       </section>
     </div>

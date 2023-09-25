@@ -1,0 +1,55 @@
+.table {
+    line-height: 40px;
+    border-collapse: collapse;
+}
+
+.table thead {
+    background-color: #f0f0f0;
+}
+
+.table th,
+.table td {
+    width: 200px;
+    text-align: left;
+    padding: 0 16px;
+    border-bottom: 1px #f0f0f0 solid;
+}
+
+.sortIcon {
+    float: right;
+    position: relative;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.sortIcon::before,
+.sortIcon::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 4px;
+    margin-top: 4px;
+}
+
+.sortIcon::before {
+    border-bottom-color: #aaaaaa;
+}
+
+.sortIcon::after {
+    border-top-color: #aaaaaa;
+}
+
+.sortIcon.increase::before {
+    border-bottom-color: #347af6;
+}
+
+.sortIcon.decrease::after {
+    border-top-color: #347af6;
+}
